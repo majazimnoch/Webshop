@@ -1,25 +1,26 @@
-
-/* import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg' */
 import { Routes, Route } from "react-router-dom";
-import './App.css'
-import Button from 'react-bootstrap/Button';
+import NotFound from "./pages/NotFound";
+import HomePage from "./pages/HomePage";
 import Navigation from './components/Navigation'
+import { Container } from "react-bootstrap";
+import './assets/scss/App.scss'
 
 function App() {
 
 
   return (
-/*   <Routes>
-    <Route path="/" element = {<Home />} />
-  </Routes> */
-  <div>
-  hej
-  <Navigation />
-  <Button variant="primary">Primary</Button>{' '}
-  <Button variant="secondary">Secondary</Button>{' '}
-  </div>
+    <div>
+      <Navigation />
+
+      <Container className="py-3">
+        hej
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Container>
+    </div>
   )
 }
 
-export default App
+export default App;
