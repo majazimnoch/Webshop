@@ -18,14 +18,14 @@
     ]
   }, */
 
-  interface Product {
+  /* interface Product {
     id: number,
     name: string,
     price: number,
     on_sale: boolean,
     images: Image,
     stock_status: StockStatus,
-    tags: Tag[] /* double check if its correct */
+    tags: Tag[]  double check if its correct 
   }
 
   type StockStatus = "instock" | "outofstock"
@@ -40,4 +40,4 @@
     name: string,
     slug: string
 
-  }
+  } */

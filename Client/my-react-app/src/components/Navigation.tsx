@@ -23,7 +23,7 @@ function Navigation() {
             </Nav.Link>
             <Nav.Link
               as={NavLink}
-              to="/profile"
+              to="/user"
 
             >
               Shopper Profile
