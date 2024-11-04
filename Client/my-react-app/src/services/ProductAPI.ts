@@ -1,7 +1,8 @@
 import axios from "axios";
 import { CartItem, UpdateCartProductPayload, type AddProductToCartPayload, type Product } from "./ProductAPI.types";
 
-const baseURL = "http://www.bortakvall.se/api/v2/products";
+/* const baseURL = "http://www.bortakvall.se/api/v2";  */
+const baseURL = '/api'
 const FAKE_DELAY = 1500;
 
 const instance = axios.create({
@@ -30,7 +31,7 @@ const get = async <T>(endpoint: string) => {
     }
 
     return response.data;
-}
+} 
 
 
 /**
@@ -50,9 +51,20 @@ const post = async <Response, Payload>(endpoint: string, data: Payload) => {
  * Fetch all the products from the API
  */
 
-export const getProducts = async () => {
+/* export const getProducts = async () => {
     return get<Product[]>("/products");
-}
+} */
+
+    const getProducts = async (): Promise<Product[]> => {
+        try {
+             // This will now use the proxy defined in Vite's config
+          const response = await axios.get(`${baseURL}/products`); // Use the proxy URL here
+          return response.data; // Adjust as necessary based on your API response structure
+        } catch (error) {
+          console.error('Error fetching products:', error);
+          throw error;
+        }
+      };
 
 /**
  * Fetch a single product by ID from the API
