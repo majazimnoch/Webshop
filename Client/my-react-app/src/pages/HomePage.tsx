@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import productAPI from "../services/ProductAPI";
 import { Product } from "../services/ProductAPI.types";
+import Button from 'react-bootstrap/Button';
+import ProductFilter from "../components/ProductFilter";
+
 
 interface ApiResponse {
     status: string;
@@ -11,6 +14,11 @@ const HomePage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [filters, setFilters] = useState({
+        vegan: false,
+        palmOilFree: false,
+        gelatinFree: false
+    });
 
     // Base URL for images
     const BASE_URL = "https://www.bortakvall.se";
@@ -36,6 +44,15 @@ const HomePage: React.FC = () => {
         fetchProducts();
     }, []);
 
+    const filteredProducts = products.filter(product => {
+        const tags = product.tags.map(tag => tag.slug);
+        return (
+            (!filters.vegan || tags.includes("vegansk")) &&
+            (!filters.palmOilFree || tags.includes("palmoljefri")) &&
+            (!filters.gelatinFree || tags.includes("gelatinfri"))
+        );
+    });
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -46,22 +63,19 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-            <h1>Product List</h1>
-            <div className="product-list">
-                {products.map(product => {
-                    // Log the image URL to the console
-                    console.log('Product Image URL:', product.description);
 
+            <ProductFilter onFilterChange={setFilters} />
+            <div className="product-list">
+                {filteredProducts.map(product => {
                     return (
                         <div key={product.id} className="product-item">
-                            <h3>{product.name}</h3>
-                            <h2>desc{product.description}</h2>
                             <img
                                 src={`${BASE_URL}${product.images.thumbnail}`}
                                 alt={product.name}
                             />
+                            <h5>{product.name}</h5>
                             <p>Price: ${product.price.toFixed(2)}</p>
-                            <p>{product.on_sale ? "On Sale" : "Not on Sale"}</p>
+                            <Button variant="primary">Add to cart</Button>{' '}
                         </div>
                     );
                 })}
