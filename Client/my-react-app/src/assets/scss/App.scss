@@ -8,29 +8,18 @@ h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 0.75em;
     color: red;
 }
-/* single product */
 
-.single-product {
-    padding: 16px;
-    border: 1px solid #ddd;
-  }
-  
-  .sale {
-    color: red;
-    font-weight: bold;
-  }
-  
-  .tags {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .tag {
-    background-color: #f3f3f3;
-    padding: 4px 8px;
-    border-radius: 4px;
-  }
-  
+/* Home page */
+.product-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border:1px red solid;
+}
+
+img {
+  width:100px;
+
+}
 /* Cart page styling */
 .user-container {
     display: flex;

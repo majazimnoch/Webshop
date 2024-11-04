@@ -51,15 +51,11 @@ const post = async <Response, Payload>(endpoint: string, data: Payload) => {
  * Fetch all the products from the API
  */
 
-/* export const getProducts = async () => {
-    return get<Product[]>("/products");
-} */
-
     const getProducts = async (): Promise<Product[]> => {
         try {
-             // This will now use the proxy defined in Vite's config
-          const response = await axios.get(`${baseURL}/products`); // Use the proxy URL here
-          return response.data; // Adjust as necessary based on your API response structure
+          // This will now use the proxy defined in Vite's config
+          const response = await axios.get(`${baseURL}/products`); 
+          return response.data; 
         } catch (error) {
           console.error('Error fetching products:', error);
           throw error;
