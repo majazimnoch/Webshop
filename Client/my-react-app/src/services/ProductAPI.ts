@@ -1,7 +1,8 @@
 import axios from "axios";
-import type { Product, ProductSummary, AddProductToCartPayload, UpdateCartProductPayload, CartItem } from "./ProductAPI.types";
+import { CartItem, UpdateCartProductPayload, type AddProductToCartPayload, type Product } from "./ProductAPI.types";
 
 const baseURL = "http://www.bortakvall.se/api/v2/products";
+const FAKE_DELAY = 1500;
 
 const instance = axios.create({
     baseURL,
@@ -12,30 +13,83 @@ const instance = axios.create({
     timeout: 10000,
 });
 
-export default instance;
 
 /**
- * Fetch all products
+ * Make a generic HTTP GET request
+ * 
+ * @param endpoint Endpoint to get
+ * @returns Response data
  */
-/* export const fetchAllProducts = async (): Promise<ProductSummary[]> => {
-    try {
-        const response = await axios.get<ProductSummary[]>("/");
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching product", error);
-        throw error;
+
+const get = async <T>(endpoint: string) => {
+    const response = await instance.get<T>(endpoint);
+
+    // simulate slow API response
+    if (FAKE_DELAY) {
+        await new Promise(r => setTimeout(r, FAKE_DELAY));
     }
-} */
+
+    return response.data;
+}
 
 
-    export const fetchAllProducts = async (): Promise<Product[]> => {
-        const response = await instance.get<Product[]>("/products");
-        return response.data;
-      };
-      
-      // You can export other methods similarly
-      export const fetchProductById = async (id: number): Promise<Product> => {
-        const response = await instance.get<Product>(`/products/${id}`);
-        return response.data;
-      };
+/**
+ * Make a generic HTTP POST request
+ * 
+ * @param endpoint to post to
+ * @param data Payload data
+ * @returns Response data
+ */
 
+const post = async <Response, Payload>(endpoint: string, data: Payload) => {
+    const response = await instance.post<Response>(endpoint, data);
+    return response.data;
+}
+
+/**
+ * Fetch all the products from the API
+ */
+
+export const getProducts = async () => {
+    return get<Product[]>("/products");
+}
+
+/**
+ * Fetch a single product by ID from the API
+ */
+export const getProduct = async (id:number) => {
+    return get<Product>("products/" + id);
+}
+
+/**
+ * Add a product to the cart 
+ */
+export const addProductToCart = async (data: AddProductToCartPayload) => {
+    return post<CartItem, AddProductToCartPayload>("/cart", data);
+}
+
+
+/**
+ * Update a product in the cart 
+ */
+export const updateCartProduct = async (id: number, data: UpdateCartProductPayload) => {
+    const response = await instance.patch<CartItem>("/cart" + id, data);
+    return response.data;
+}
+
+/**
+ * Remove a product from the cart
+ */
+
+export const removeProductFromCart = async (id: number) => {
+    await instance.delete("cart/" + id);
+    return true;
+}
+
+export default {
+    getProducts,
+    getProduct,
+    addProductToCart,
+    updateCartProduct,
+    removeProductFromCart
+}
