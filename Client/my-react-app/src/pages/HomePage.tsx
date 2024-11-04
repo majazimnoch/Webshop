@@ -3,6 +3,7 @@ import productAPI from "../services/ProductAPI";
 import { Product } from "../services/ProductAPI.types";
 import Button from 'react-bootstrap/Button';
 import ProductFilter from "../components/ProductFilter";
+import Header from "../components/Header";
 
 
 interface ApiResponse {
@@ -63,7 +64,7 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-
+            <Header />
             <ProductFilter onFilterChange={setFilters} />
             <div className="product-list">
                 {filteredProducts.map(product => {
