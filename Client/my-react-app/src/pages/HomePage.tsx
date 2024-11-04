@@ -64,7 +64,6 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-            <Header />
             <ProductFilter onFilterChange={setFilters} />
             <div className="product-list">
                 {filteredProducts.map(product => {

@@ -4,8 +4,8 @@ const Header: React.FC = () => {
     return (
         <div style={{
             backgroundImage: `url(${candyBackground})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundSize: "500px",
+            backgroundRepeat: "repeat",
             height: "200px"
         }}>
         </div>

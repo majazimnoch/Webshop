@@ -6,6 +6,7 @@ import Cart from "./pages/Cart";
 import Navigation from './components/Navigation';
 import { Container } from "react-bootstrap";
 import './assets/scss/App.scss'
+import Header from "./components/Header";
 
 function App() {
 
@@ -13,7 +14,7 @@ function App() {
   return (
     <div>
       <Navigation />
-
+      <Header />
       <Container className="py-3">
         <Routes>
           <Route path="/" element={<HomePage />} />
